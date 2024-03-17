@@ -88,8 +88,9 @@ namespace FakeXiecheng.API.Controllers
         [HttpHead]
         public async Task<IActionResult> GetTouristRoutes(
             [FromQuery] TouristRouteResourceParameters parameters,
-            [FromQuery] PaginationResourceParameters parameters2,
-            [FromQuery(Name ="Accept")] string mediaType)
+            [FromQuery] PaginationResourceParameters parameters2
+            //[FromQuery(Name ="Accept")] string? mediaType
+            )
         {
             
             //Regex regex = new Regex(@"([A-Za-z0-9\-]+)(\d+)");
@@ -104,11 +105,11 @@ namespace FakeXiecheng.API.Controllers
             //    ratingValue = Int32.Parse(match.Groups[2].Value);
             //    }
             //}
-            if(!MediaTypeHeaderValue.
-                TryParse(mediaType, out MediaTypeHeaderValue parsedMediatype))
-            {
-                return BadRequest();
-            }
+            //if(!MediaTypeHeaderValue.
+            //    TryParse(mediaType, out MediaTypeHeaderValue parsedMediatype))
+            //{
+            //    return BadRequest();
+            //}
             if (!_propertyMappingService.IsMappingExists<TouristRouteDto, TouristRoute>(parameters.OrderBy))
             {
                 return BadRequest("請輸入正確的排序參數");
@@ -158,8 +159,8 @@ namespace FakeXiecheng.API.Controllers
 
             var shapedDtoList = touristRoutesDto.ShapeData(parameters.Fields);
 
-            if(parsedMediatype.MediaType == "application/vnd.aleks.hateoas+json")
-            {
+            //if(parsedMediatype.MediaType == "application/vnd.aleks.hateoas+json")
+            //{
                 var linkDto = CreateLinksForTouristRouteList(parameters, parameters2);
 
                 var shapedDtoWithLinklist = shapedDtoList.Select(t =>
@@ -178,8 +179,8 @@ namespace FakeXiecheng.API.Controllers
                 };
 
                 return Ok(result);
-            }
-            return Ok(shapedDtoList);
+            //}
+            //return Ok(shapedDtoList);
             
 
         }
